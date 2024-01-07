@@ -1,0 +1,33 @@
+<launch>
+        <!-- for the TF settings-->
+        <node pkg='tf2_ros' type="static_transform_publisher" name="base_link_to_imu" 
+            args='0.0560000017285347 0.0 0.13600000739097595 0.0 0.0 0.0 1.0 base_link imu'/>
+        
+        <node pkg='tf2_ros' type="static_transform_publisher" name="base_link_to_gps"
+            args='0.0 0.0 0.125 0.0 0.0 0.0 1.0 base_link gps'/>
+
+        <node pkg='tf2_ros' type="static_transform_publisher" name="base_link_to_lidar"
+            args='0.11400000005960464 0.0 0.12999999523162842 0.0 0.0 0.0 1.0 base_link lidar'/>
+        
+        <!-- convert LiDAR Point Clouds 180' degree-->
+        <node pkg="convert_lidar" type="convert_lidar" name="convert_lidar"/>
+
+        <!-- LiDAR Object Dection-->
+        <node pkg="object_detection" type="object_detection" name="object_detection"/>
+
+        <!-- get Odometry data-->
+        <!-- <include file="$(find racecar)/launch/teleop.launch"/> -->
+
+        <!-- for the Odom TF settings-->
+        <!-- <node pkg="wecar_ros" type="odom_tf.py" name="odom_tf"/> -->
+
+        <!-- Control-->
+        <!-- <node pkg="mpc" type="mpc.py" name="mpc"/> -->
+        <node pkg="wecar_ros" type="wecar_planner.py" name="wecar_planner" output="screen"/>
+
+        <!-- args = "(추종할 경로 이름)" -->
+	    <!-- <node pkg="wecar_ros" type="wecar_planner.py" name="planner" args="wecar_path1" output="screen" /> -->
+        <node pkg="rviz" type="rviz" name="rviz" args="-d $(find wecar_ros)/rviz/planner.rviz" />
+
+</launch>
+ 

@@ -1,0 +1,6 @@
+<launch>
+    <include file="$(find velodyne_pointcloud)/launch/VLP16_points.launch" />
+    <node pkg="object_3d_detection" type="object_3d_detection" name="object_3d_detection" />
+    <node pkg="lidar_cam_fusion" type="lidar_cam_fusion.py" name="lidar_cam_fusion" output="screen"/>
+    <node pkg="rviz" type="rviz" name="rviz" args="-d $(find object_3d_detection)/rviz/object_3d_detection.rviz" />
+</launch>
